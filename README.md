@@ -8,7 +8,6 @@
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](http://www.linkedin.com/in/mani12)
 [![GitHub](https://img.shields.io/badge/GitHub-gm--mani-181717?style=flat&logo=github)](https://github.com/gm-mani)
-![Profile Views](https://komarev.com/ghpvc/?username=gm-mani&color=blue&style=flat)
 
 </div>
 
