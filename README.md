@@ -77,12 +77,6 @@ A fully wired, production-style microservices architecture built around a fictio
 
 ---
 
-## Contribution graph
-
-![Snake](https://raw.githubusercontent.com/gm-mani/gm-mani/output/github-contribution-grid-snake-dark.svg)
-
----
-
 <div align="center">
 <sub>Based in Bengaluru, India · Open to opportunities</sub>
 </div>
