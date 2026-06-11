@@ -19,31 +19,29 @@ I'm a Software Engineer at Tata Consultancy Services, Bengaluru, focused on buil
 
 Most of my work lives in the microservices space — service discovery, async event streaming, API gateway patterns, and making sure the system keeps running when one piece breaks.
 
+When I'm not writing services, I'm learning how the infrastructure around them works.
+
 ---
 
 ## Tech stack
 
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=spring-security&logoColor=white)
-![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+**Core**
+`Java 21` · `Spring Boot 4` · `Spring Cloud` · `Spring Security`
 
----
+**Microservices & Messaging**
+`Eureka Service Discovery` · `Spring Cloud Config` · `OpenFeign` · `Apache Kafka` · `Spring Cloud Stream`
 
-## GitHub stats
+**Resilience**
+`Resilience4j` · `Circuit Breaker` · `Retry` · `Rate Limiter`
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=gm-mani&show_icons=true&theme=tokyonight&hide_border=true" height="165" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=gm-mani&layout=compact&theme=tokyonight&hide_border=true" height="165" />
-</p>
+**API & Security**
+`Spring Cloud Gateway` · `OAuth2 / JWT` · `Keycloak` · `REST APIs` · `OpenAPI / Swagger`
 
-<p align="center">
-  <img src="https://streak-stats.demolab.com?user=gm-mani&theme=tokyonight&hide_border=true" />
-</p>
+**Data & Persistence**
+`Spring Data JPA` · `Hibernate` · `H2` · `Redis`
+
+**DevOps & Tooling**
+`Docker` · `Docker Compose` · `JIB` · `Maven` · `Git`
 
 ---
 
@@ -51,9 +49,43 @@ Most of my work lives in the microservices space — service discovery, async ev
 
 ### [Microservices — Banking Backend System](https://github.com/gm-mani/Microservices)
 
-A fully wired, production-style microservices architecture built around a fictional banking domain. Not a tutorial clone — this is a system designed end-to-end with the patterns you'd expect in real distributed services work.
+A fully wired, production-style microservices architecture built around a fictional banking domain. Not a tutorial clone — this is a system designed end-to-end with the patterns you'd expect in real distributed systems work.
 
-**What's inside:**
+**Architecture**
+
+```
+                          ┌─────────────┐
+                          │   Client    │
+                          └──────┬──────┘
+                                 │ HTTPS
+                    ┌────────────▼────────────────────┐
+                    │         API Gateway              │
+                    │  OAuth2/JWT · Redis rate limit   │
+                    │  Correlation ID · Circuit break  │
+                    └─────┬──────────┬──────────┬──────┘
+                          │          │           │
+               ┌──────────▼──┐  ┌───▼──────┐  ┌▼──────────┐
+               │  Accounts   │  │  Loans   │  │   Cards   │
+               │  :8080      │  │  :8090   │  │  :9000    │
+               └──────┬──────┘  └──────────┘  └───────────┘
+                      │ Kafka event (send-communication)
+               ┌──────▼──────────────┐
+               │    Apache Kafka     │
+               └──────┬──────────────┘
+                      │ consume (communication-sent)
+               ┌──────▼──────────────┐
+               │   Message Service   │
+               │   Email · SMS       │
+               └─────────────────────┘
+
+  ┌──────────────────┐    ┌──────────────────────────────┐
+  │   Eureka Server  │    │        Config Server         │
+  │ Service registry │    │  default · test · prod       │
+  └──────────────────┘    └──────────────────────────────┘
+  ↑ all services register       ↑ all services pull config
+```
+
+**What's inside**
 
 | Service | What it does |
 |---|---|
@@ -65,15 +97,32 @@ A fully wired, production-style microservices architecture built around a fictio
 | `configserver` | Centralised config with environment-specific profiles (default / test / prod) |
 | `message` | Async consumer — handles email and SMS notification events off the Kafka queue |
 
-**How it's wired together:**
+**How it's wired together**
 
-- Services communicate via **OpenFeign** with **Resilience4j circuit breakers** and **fallback handlers** — if a downstream service is down, requests degrade gracefully instead of cascading
-- Account creation fires an event onto a **Kafka topic** (`send-communication`), the message service consumes it and processes email/SMS — fully async, fully decoupled
-- The gateway enforces **OAuth2 / JWT auth via Keycloak**, performs **Redis-based rate limiting**, and propagates a **correlation ID** across the entire request chain for distributed tracing
+- Services communicate via OpenFeign with Resilience4j circuit breakers and fallback handlers — if a downstream service is down, requests degrade gracefully instead of cascading
+- Account creation fires an event onto a Kafka topic (`send-communication`), the message service consumes it and processes email/SMS — fully async, fully decoupled
+- The gateway enforces OAuth2/JWT auth via Keycloak, performs Redis-based rate limiting, and propagates a correlation ID across the entire request chain for distributed tracing
 - Retry policies, circuit breaker configs, and rate limiters are all tuned per-service in the centralised config server
-- **Three Docker Compose environments** — `default`, `test`, `prod` — with shared base configs and service health checks
+- Three Docker Compose environments — `default`, `test`, `prod` — with shared base configs and service health checks
 
 **Stack:** `Spring Boot 4` · `Java 21` · `Kafka` · `Resilience4j` · `Spring Cloud Gateway` · `Keycloak` · `Redis` · `Docker Compose` · `JIB`
+
+---
+
+## Currently working on
+
+- Moving this system from Docker Compose to Kubernetes — config maps, health probes, and proper resource limits
+- Distributed tracing with Micrometer and Zipkin
+- Consistent open-source contributions
+
+---
+
+## Get in touch
+
+I'm open to conversations about backend engineering, distributed systems, or anything Java/Spring.
+
+**LinkedIn:** [linkedin.com/in/mani12](http://www.linkedin.com/in/mani12)
+**GitHub:** [github.com/gm-mani](https://github.com/gm-mani)
 
 ---
 
