@@ -2,12 +2,12 @@
 
 # G M Mani
 
-**Backend Engineer · Java · Spring Boot · Microservices**
+**Backend Engineer · Java · Spring Boot · Microservices · Event-Driven Systems**
 
-*Building distributed systems that don't fall over.*
+*Designing distributed backends for reliability at scale.*
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](http://www.linkedin.com/in/mani12)
-[![GitHub](https://img.shields.io/badge/GitHub-gm--mani-181717?style=flat&logo=github)](https://github.com/gm-mani)
+[![GitHub](https://img.shields.io/badge/gm--mani-181717?logo=github&logoColor=white&style=flat)](https://github.com/gm-mani)
 
 </div>
 
@@ -15,16 +15,16 @@
 
 ## About me
 
-Software Engineer at Tata Consultancy Services, Bengaluru. I work in the backend — Java, Spring Boot, distributed systems. Most of what I build lives in the microservices and event-driven space: service discovery, async messaging, API gateway patterns, security pipelines, and making sure things stay up when something breaks.
+Software Engineer at Tata Consultancy Services, Bengaluru, specialising in backend systems — Java, Spring Boot, and distributed microservices architecture.
 
-The projects here are things I built to go past the basics — real patterns from real systems.
+I focus on event-driven design, async messaging with Kafka, API security (OAuth2/JWT, Keycloak), and resilience patterns like circuit breakers, retry chains, and dead-letter handling. The projects here demonstrate production-grade patterns: outbox pattern for guaranteed delivery, idempotent consumers, schema-enforced Kafka contracts, and multi-environment Docker deployments.
 
 ---
 
 ## Tech stack
 
 **Core**
-`Java 21` · `Spring Boot 4` · `Spring Cloud` · `Spring Security 6`
+`Java 21` · `Spring Boot 3` · `Spring Cloud` · `Spring Security 6`
 
 **Microservices & Messaging**
 `Eureka` · `Spring Cloud Config` · `OpenFeign` · `Apache Kafka` · `Spring Cloud Stream` · `Avro` · `Schema Registry`
@@ -47,7 +47,7 @@ The projects here are things I built to go past the basics — real patterns fro
 
 ### [Microservices — Banking Backend System](https://github.com/gm-mani/Microservices)
 
-7 Spring Boot services wired together as a production-style banking backend.
+A production-style banking backend built with 7 Spring Boot microservices, demonstrating service-to-service communication, async event processing, and layered security in a reliability-critical domain.
 
 ![Architecture](./microservices-architecture.png)
 
@@ -55,36 +55,36 @@ The projects here are things I built to go past the basics — real patterns fro
 
 **Key patterns implemented:**
 - Gateway handles OAuth2/JWT (Keycloak), Redis rate limiting, correlation ID propagation, and circuit breaker fallbacks — per route
-- Services talk via OpenFeign with Resilience4j circuit breakers and fallback handlers
-- Account creation publishes to Kafka (`send-communication`); message service consumes async for email/SMS — zero coupling between services
-- Config Server manages environment-specific profiles (default / test / prod) for all services
+- Services communicate via OpenFeign with Resilience4j circuit breakers and fallback handlers
+- Account creation publishes to Kafka (`send-communication`); message service consumes asynchronously for email/SMS — zero coupling between services
+- Config Server manages environment-specific profiles (default / test / prod) across all services
 - Full Docker Compose setup across three environments; JIB for containerisation
 
-`Spring Boot 4` · `Java 21` · `Kafka` · `Resilience4j` · `Spring Cloud Gateway` · `Keycloak` · `Redis` · `Docker Compose` · `JIB`
+`Spring Boot 3` · `Java 21` · `Kafka` · `Resilience4j` · `Spring Cloud Gateway` · `Keycloak` · `Redis` · `Docker Compose` · `JIB`
 
 ---
 
 ### [Kafka Order Processing System](https://github.com/gm-mani/kafka-order-processing-system)
 
-A producer/consumer system that implements the Kafka patterns that matter in production — not just publish and subscribe.
+A producer/consumer system built around the Kafka patterns that matter in production — guaranteed delivery, schema contracts, and safe duplicate handling.
 
 **What's implemented:**
 - **Outbox Pattern** — order and outbox event written in a single `@Transactional` block; a `@Scheduled` publisher polls and sends to Kafka, guaranteeing no lost events even if Kafka is temporarily down
-- **Avro serialisation + Confluent Schema Registry** — strongly typed event contracts between producer and consumer
-- **Retry topics + Dead Letter Topic** — failed messages flow through `retry-1 (1s)` → `retry-2 (2s)` → `DLT`; poison messages are parked for investigation
-- **Idempotent consumer** — deduplication via `processed_orders` table; duplicate deliveries are safely ignored
+- **Avro + Confluent Schema Registry** — strongly typed event contracts enforced between producer and consumer
+- **Retry topics + Dead Letter Topic** — failed messages flow through `retry-1 (1s)` → `retry-2 (2s)` → `DLT`; poison messages parked for investigation
+- **Idempotent consumer** — deduplication via `processed_orders` table; duplicate deliveries safely ignored
 - **Manual offset acknowledgment** — offsets committed only after successful processing
 - Consumer group rebalancing, message keys for ordering guarantees, Kafka UI for monitoring
 
-`Spring Boot 4` · `Apache Kafka` · `Avro` · `Schema Registry` · `Outbox Pattern` · `DLT` · `PostgreSQL` · `Docker Compose`
+`Spring Boot 3` · `Apache Kafka` · `Avro` · `Schema Registry` · `Outbox Pattern` · `DLT` · `PostgreSQL` · `Docker Compose`
 
 ---
 
 ## Currently working on
 
-- Kubernetes — migrating the microservices system from Docker Compose to K8s (config maps, health probes, resource limits)
+- Kubernetes — migrating the microservices system from Docker Compose to K8s (ConfigMaps, health probes, resource limits)
 - Distributed tracing with Micrometer + Zipkin
-- Refresh token flow and method-level security in the Spring Security project
+- Refresh token rotation and method-level security in Spring Security
 
 ---
 
