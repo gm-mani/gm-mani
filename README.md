@@ -24,7 +24,7 @@ I focus on event-driven design, async messaging with Kafka, API security (OAuth2
 ## Tech stack
 
 **Core**
-`Java 21` · `Spring Boot 3` · `Spring Cloud` · `Spring Security 6`
+`Java 17` · `Spring Boot 3` · `Spring Cloud` · `Spring Security 6`
 
 **Microservices & Messaging**
 `Eureka` · `Spring Cloud Config` · `OpenFeign` · `Apache Kafka` · `Spring Cloud Stream` · `Avro` · `Schema Registry`
