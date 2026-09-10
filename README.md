@@ -80,6 +80,14 @@ A producer/consumer system built around the Kafka patterns that matter in produc
 
 ---
 
+## Future improvements
+
+- Kubernetes — migrating the microservices system from Docker Compose to K8s (ConfigMaps, health probes, resource limits)
+- Distributed tracing with Micrometer + Zipkin
+- Refresh token rotation and method-level security in Spring Security
+  
+---
+
 ## Get in touch
 
 **LinkedIn:** [linkedin.com/in/mani12](http://www.linkedin.com/in/mani12)
